@@ -50,9 +50,23 @@ def update_task(id):
   task.description = data['description']
   task.completed = data['completed']
   
-  return jsonify(task.to_dict())
-    
-  
-  
+  return jsonify({
+    "data":task.to_dict(),
+    "message":"Tarefa atualizada com sucesso"
+  })
+
+@app.route('/tasks/<int:id>', methods=['DELETE'])
+def delete_task(id):
+  task = None
+  for task_ in tasks:
+    if task_.id == id:
+      tasks.remove(task_)
+      return jsonify({
+        "message":"Tarefa removida com sucesso!"
+      })
+      
+    if not task:
+      return jsonify({"message":"Não foi encontrado!"}), 404
+     
 if __name__ == "__main__":
   app.run(debug=True)
