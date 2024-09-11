@@ -3,3 +3,6 @@
 1.pip3 install Flask==2.3.0 or 
 
 2.pip3 install -r requirements.txt
+
+# Rodando teste
+1.pytest test.py -v
