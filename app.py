@@ -13,19 +13,27 @@ def create_task():
   new_task = Task(id=task_id,title=data['title'],description=data['description'])
   task_id +=1
   tasks.append(new_task)
-  print(tasks)
-  return "teste"
+  return jsonify(new_task.to_dict()), 200
 
 @app.route('/tasks', methods=['GET'])
 def get_task():
   
-  task_list = [Task.to_dict() for Task in tasks]
+  task_list = [task.to_dict() for task in tasks]
 
   output = {
     "tasks":task_list,
-    "total_task":""
+    "total_task":len(task_list)
   }
   return jsonify(output)
+
+
+@app.route('/tasks/<int:id>', methods=['GET'])
+def get_taskId(id):
+  for task in tasks:
+    if task.id == id:
+      return jsonify(task.to_dict())
+    
+  return jsonify({"message":"Não foi encontrado!"}), 404
   
 if __name__ == "__main__":
   app.run(debug=True)
